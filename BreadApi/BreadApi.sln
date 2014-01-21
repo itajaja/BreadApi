@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BreadApi", "BreadApi\BreadApi.csproj", "{4146D3E8-2804-4CC9-8A3B-DA0B6D7E38A5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BreadEngine", "BreadEngine\BreadEngine.csproj", "{2F7B16B0-4805-458E-A22C-7F90E9DD54AA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{4146D3E8-2804-4CC9-8A3B-DA0B6D7E38A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4146D3E8-2804-4CC9-8A3B-DA0B6D7E38A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4146D3E8-2804-4CC9-8A3B-DA0B6D7E38A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F7B16B0-4805-458E-A22C-7F90E9DD54AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F7B16B0-4805-458E-A22C-7F90E9DD54AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F7B16B0-4805-458E-A22C-7F90E9DD54AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F7B16B0-4805-458E-A22C-7F90E9DD54AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
