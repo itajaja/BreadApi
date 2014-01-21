@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Siemens.SimaticIT.MES.Breads;
 
 namespace Hylasoft.BreadEngine
 {
+    /// <summary>
+    /// Exposes the breads inside a bread DLL
+    /// </summary>
     class BreadLoader
     {
         /// <summary>
@@ -14,14 +16,17 @@ namespace Hylasoft.BreadEngine
         public Assembly Assembly { get; private set; }
 
         /// <summary>
-        /// Gets or sets the displayable name of the current Bread
+        /// Gets or sets the displayable name of the current Bread plugin
         /// </summary>
-        public string Name { get; set; }
+        public string Name
+        {
+            get { return Assembly.GetName().Name; }
+        }
 
         /// <summary>
-        /// Gets All the Bread Types
+        /// Gets all the Bread Types
         /// </summary>
-        public IList<Type> Breads { get; private set; }
+        public IList<Bread> Breads { get; private set; }
 
         /// <summary>
         /// Initializes a new BreadLoader object using the given assembly
@@ -32,7 +37,7 @@ namespace Hylasoft.BreadEngine
             if (assembly == null)
                 throw new ArgumentNullException("assembly");
             Assembly = assembly;
-            Breads = assembly.GetTypes().Where(t => typeof(EntityWithPlugins_BREAD).IsAssignableFrom(t) && !t.IsGenericType).ToList();
+            Breads = assembly.GetTypes().Where(Bread.IsCorrectBreadType).Select(t => new Bread(t)).ToList();
         }
 
         /// <summary>
