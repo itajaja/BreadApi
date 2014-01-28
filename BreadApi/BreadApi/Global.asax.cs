@@ -4,7 +4,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using Ninject.WebApi;
 
-namespace BreadApi
+namespace Hylasoft.BreadApi
 {
   // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
   // visit http://go.microsoft.com/?LinkId=9394801

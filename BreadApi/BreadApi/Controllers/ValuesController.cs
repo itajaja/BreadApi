@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
 
-namespace BreadApi.Controllers
+namespace Hylasoft.BreadApi.Controllers
 {
   public class ValuesController : ApiController
   {

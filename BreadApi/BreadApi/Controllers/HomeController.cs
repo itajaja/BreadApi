@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace BreadApi.Controllers
+namespace Hylasoft.BreadApi.Controllers
 {
     public class HomeController : Controller
     {
