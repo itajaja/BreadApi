@@ -8,7 +8,7 @@ namespace Hylasoft.BreadEngine
   /// <summary>
   /// Exposes the breads inside a bread DLL
   /// </summary>
-  class BreadLoader
+  public class BreadLoader
   {
     /// <summary>
     /// Gets the current assembly
@@ -16,11 +16,11 @@ namespace Hylasoft.BreadEngine
     public Assembly Assembly { get; private set; }
 
     /// <summary>
-    /// Gets or sets the displayable name of the current Bread plugin
+    /// Gets the displayable name of the current Bread plugin
     /// </summary>
     public string Name
     {
-      get { return Assembly.GetName().Name; }
+      get { return Assembly.GetName().Name.Replace("Bread",""); }
     }
 
     /// <summary>
