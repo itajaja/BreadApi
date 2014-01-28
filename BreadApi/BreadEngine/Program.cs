@@ -2,21 +2,18 @@
 
 namespace Hylasoft.BreadEngine
 {
-    class Program
+  class Program
+  {
+    static void Main()
     {
-        static void Main()
-        {
-            var b = new BreadLoader(@"C:\Program Files (x86)\Siemens\SIT\MES\BIN\OEEBread.dll");
-            Console.WriteLine("found " + b.Breads.Count +" Breads inside "+ b.Name);
-            foreach (var bread in b.Breads)
-            {
-                Console.WriteLine("- " + bread.Name+ ":");
-                foreach (var method in bread.Methods)
-                {
-                    Console.WriteLine("\t"+method);
-                }
-                Console.WriteLine();
-            }
-        }
+      var b = new BreadLoader(@"C:\Program Files (x86)\Siemens\SIT\MES\BIN\OEEBread.dll");
+      Console.WriteLine("found " + b.Breads.Count + " Breads inside " + b.Name);
+      foreach (var bread in b.Breads)
+      {
+        Console.WriteLine("running " + bread.Name + ".Select() ...");
+        var s = bread.Select();
+        Console.WriteLine("found " + s.Count);
+      }
     }
+  }
 }
