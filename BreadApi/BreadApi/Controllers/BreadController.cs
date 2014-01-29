@@ -16,9 +16,12 @@ namespace Hylasoft.BreadApi.Controllers
     [HttpPost]
     public IList Select(string bread, string breadClass, SelectQuery sq)
     {
-      var breadInstance =
-        _breads.Single(b => String.Equals(b.Name, bread, StringComparison.CurrentCultureIgnoreCase))
-          .Breads.Single(b => String.Equals(b.Name, breadClass, StringComparison.CurrentCultureIgnoreCase));
+      var loader = _breads.SingleOrDefault(b => String.Equals(b.Name, bread, StringComparison.CurrentCultureIgnoreCase));
+      if (loader == null)
+        throw new ArgumentException("Couldn't find the Bread" + bread);
+      var breadInstance = loader.Breads.Single(b => String.Equals(b.Name, breadClass, StringComparison.CurrentCultureIgnoreCase));
+      if (breadInstance == null)
+        throw new ArgumentException("Couldn't find the class" + breadClass + " inside " + bread);
       return breadInstance.Select(sq.Condition,sq.StartRowIndex,sq.MaximumRows,sq.SortBy);
     }
   }
