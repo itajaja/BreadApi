@@ -5,7 +5,7 @@ Web service to automatically expose any SIMATIC IT 6.5 Breads as (*quasi*)REST s
 
 Set up
 -------------
-The BreadApi WebService is built using MVC 4 WEBAPI. It has to run on a machine with SimaticIT installed. the service has been tested with SIMATIC IT 6.5. While it might work also with other versions, these are not currently supported
+The BreadApi WebService is built using MVC 4 WEBAPI. It has to run on a machine with SimaticIT installed. the service has been tested with SIMATIC IT 6.5. While it might work also with other versions, these are not currently supported.
 
 Configuration
 -------------
@@ -21,7 +21,7 @@ In the `appSettings` section modify the following values:
 
 Running
 -------------
-The API are exposed as `POST` requests at the address `breads/{breadPackage}/{bread}/{action}` where
+The API are exposed as `POST` requests at the address `breads/{breadPackage}/{bread}/{action}` where:
 
 - `breadPackage` is the name of the Bread package (e.g. `OEE`, `MM`, `POM`)
 - `bread` is the name of the bread instance (e.g. `Algorithm`, `MachineState`)
@@ -31,7 +31,7 @@ For example, if I want to call the Select method in the Equipment bread of the O
 
     breads/oee/equipment/select
 
-All the available api calls can be seen at the browse page (still to do)
+All the available api calls can be navigated from the home page.
 
 Currently the following methods can be called (if the specified bread support them)
 
@@ -46,4 +46,6 @@ Currently the following methods can be called (if the specified bread support th
 - `UnsetCurrentTransationHandle` (To be implemented)
 - `SetCurrentUser` (To be implemented)
 
-Refer to the guide `OEEBREADENG.chm` for the documentation for these methods
+Refer to the guide `OEEBREADENG.chm` for the documentation for these methods.
+Custom Methods defined by each API for now are not supported.
+
