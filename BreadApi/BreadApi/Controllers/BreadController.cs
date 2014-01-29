@@ -12,18 +12,7 @@ namespace Hylasoft.BreadApi.Controllers
   public class BreadController : ApiController
   {
 
-    private readonly List<BreadLoader> _breads;
-
-    public BreadController()
-    {
-      _breads = new List<BreadLoader>();
-      foreach (var file in Config.Val(Config.Keys.BreadDlls).Split(','))
-      {
-        var path = Path.Combine(Config.Val(Config.Keys.PathToSit), file);
-        _breads.Add(new BreadLoader(path));
-      }
-    }
-
+    private readonly List<BreadLoader> _breads = BreadService.Get();
 
     [HttpPost]
     public IList Select(string bread, string breadClass, SelectQuery sq)
