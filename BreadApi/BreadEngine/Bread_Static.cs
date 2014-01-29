@@ -36,7 +36,7 @@ namespace Hylasoft.BreadEngine
     /// <returns></returns>
     public static bool IsCorrectBreadType(Type type)
     {
-      return typeof(EntityWithPlugins_BREAD).IsAssignableFrom(type) && !type.IsGenericType;
+      return typeof(EntityWithPlugins_BREAD).IsAssignableFrom(type) && !type.IsGenericType && !type.IsAbstract;
     }
 
     /// <summary>
