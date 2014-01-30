@@ -54,14 +54,19 @@ namespace Hylasoft.BreadEngine
     /// </summary>
     /// <param name="methodName">The method name. The method must be a valid bread type, i.e. it must appear in the "Methods" property</param>
     /// <param name="parameters">The parameters that are used in the method</param>
-    /// <returns>the result of the invocation</returns>
+    /// <returns>The result of the invocation</returns>
     public object InvokeMethod(string methodName, object[] parameters)
     {
       var method = GetMethod(methodName);
       return method.Invoke(_bread, parameters);
     }
 
-    public ParameterInfo[] GetMethodTypes(string methodName)
+    /// <summary>
+    /// Gets the parameters for the specified method
+    /// </summary>
+    /// <param name="methodName">The method name. The method must be a valid bread type, i.e. it must appear in the "Methods" property</param>
+    /// <returns>The list of parameters</returns>
+    public ParameterInfo[] GetMethodParams(string methodName)
     {
       var method = GetMethod(methodName);
       return method.GetParameters();
