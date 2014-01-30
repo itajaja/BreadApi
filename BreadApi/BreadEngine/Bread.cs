@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -51,17 +50,21 @@ namespace Hylasoft.BreadEngine
     }
 
     /// <summary>
-    /// Invoke the Select method on the bread
+    /// Invoke the specified method on the bread
     /// </summary>
-    /// <param name="condition">The condition parameter is a string containing the filter condition for the instances. The syntax is the same as the WHERE clause of an SQL Server query: instead of field names, BREAD property names are specified enclosed in curly bracket</param>
-    /// <param name="startRowIndex">Maximum number of instances returned. To invoke the method without paging the results, set to -1</param>
-    /// <param name="maximumRows">Zero-based index of the first instance returned. To invoke the method without paging the results, set to -1</param>
-    /// <param name="sortby">The sortby parameter is a string containing the list of entity properties to sort the results by. The list is comma-separated and the property names must be enclosed in curly brackets, unless a single property is specified. ASC and DESC (case insensitive) can be used to reverse ordering, as in a common SQL order by clause</param>
-    /// <returns></returns>
-    public IList Select(string condition = "", int startRowIndex = -1, int maximumRows = -1, string sortby = "")
+    /// <param name="methodName">The method name. The method must be a valid bread type, i.e. it must appear in the "Methods" property</param>
+    /// <param name="parameters">The parameters that are used in the method</param>
+    /// <returns>the result of the invocation</returns>
+    public object InvokeMethod(string methodName, object[] parameters)
     {
-      var select = BreadType.GetMethods().Single(m => m.Name == BreadMethodSelect);
-      return (IList)select.Invoke(_bread, new object[] { sortby, startRowIndex, maximumRows, condition });
+      var method = GetMethod(methodName);
+      return method.Invoke(_bread, parameters);
+    }
+
+    public ParameterInfo[] GetMethodTypes(string methodName)
+    {
+      var method = GetMethod(methodName);
+      return method.GetParameters();
     }
 
     /// <summary>
@@ -77,8 +80,17 @@ namespace Hylasoft.BreadEngine
     //the bread instance
     private object _bread;
     //the default constructor of the bread
-    private readonly ConstructorInfo _defaultConstructor; 
-    
+    private readonly ConstructorInfo _defaultConstructor;
+
+    private MethodInfo GetMethod(string methodName)
+    {
+      var method = BreadType.GetMethods().SingleOrDefault(m => m.Name == methodName);
+      if (!Methods.Contains(methodName) || method == null)
+        throw new ArgumentException("The class " + Name + " doesn't contain the method " + methodName +
+                                    " or it's not a valid bread method");
+      return method;
+    }
+
     #endregion
   }
 }

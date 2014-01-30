@@ -14,8 +14,8 @@ namespace Hylasoft.BreadApi
 
       config.Routes.MapHttpRoute(
             name: "BreadApi",
-            routeTemplate: "breads/{bread}/{breadClass}/{action}",
-            defaults: new { id = RouteParameter.Optional, controller = "Bread"}
+            routeTemplate: "breads/{bread}/{breadClass}/{method}",
+            defaults: new { id = RouteParameter.Optional, controller = "Bread", action = "Invoke" }
         );
     }
   }

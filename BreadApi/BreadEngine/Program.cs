@@ -10,9 +10,6 @@ namespace Hylasoft.BreadEngine
       Console.WriteLine("found " + b.Breads.Count + " Breads inside " + b.Name);
       foreach (var bread in b.Breads)
       {
-        Console.WriteLine("running " + bread.Name + ".Select() ...");
-        var s = bread.Select();
-        Console.WriteLine("found " + s.Count);
       }
     }
   }
