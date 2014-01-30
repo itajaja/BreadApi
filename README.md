@@ -36,16 +36,16 @@ All the available api calls can be navigated from the home page.
 Currently the following methods can be called (if the specified bread support them)
 
 - `Select`
-- `Create` (To be implemented)
-- `Delete` (To be implemented)
-- `Edit` (To be implemented)
-- `SelectCount` (To be implemented)
-- `SelectByPK` (To be implemented)
-- `SelectRank` (To be implemented)
-- `SetCurrentTransationHandle` (To be implemented)
-- `UnsetCurrentTransationHandle` (To be implemented)
-- `SetCurrentUser` (To be implemented)
+- `Create`
+- `Delete`
+- `Edit`
+- `SelectCount`
+- `SelectByPK`
+- `SelectRank`
+- `SetCurrentTransationHandle`
+- `UnsetCurrentTransationHandle`
+- `SetCurrentUser`
 
 Refer to the guide `OEEBREADENG.chm` for the documentation for these methods.
-Custom Methods defined by each API for now are not supported.
+Custom Methods defined by each API for now are not supported, but they probably be in the future.
 
