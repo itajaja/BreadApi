@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
@@ -22,7 +21,8 @@ namespace Hylasoft.BreadApi.Controllers
       var objectQuery = new object[pars.Count()];
       for (var i = 0; i < pars.Count(); i++)
         objectQuery[i] = query[i].ToObject(pars[i].ParameterType);
-      return breadInstance.InvokeMethod(method, objectQuery);
+      var result = breadInstance.InvokeMethod(method, objectQuery);
+      return result;
     }
 
     [HttpPost]

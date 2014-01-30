@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Newtonsoft.Json.Serialization;
 using Ninject.WebApi;
 
 namespace Hylasoft.BreadApi
@@ -14,7 +15,8 @@ namespace Hylasoft.BreadApi
     protected void Application_Start()
     {
       AreaRegistration.RegisterAllAreas();
-
+      var config = GlobalConfiguration.Configuration;
+      config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new DefaultContractResolver();
       NinjectHttpContainer.RegisterModules(NinjectHttpModules.Modules);
       WebApiConfig.Register(GlobalConfiguration.Configuration);
       FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
