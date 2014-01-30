@@ -4,7 +4,9 @@ using System.Linq;
 using System.Web.Http;
 using Hylasoft.BreadApi.Services;
 using Hylasoft.BreadEngine;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Schema;
 
 namespace Hylasoft.BreadApi.Controllers
 {
@@ -17,7 +19,7 @@ namespace Hylasoft.BreadApi.Controllers
     public object Invoke(string bread, string breadClass, string method, JArray query)
     {
       var breadInstance = LoadBread(bread, breadClass);
-      var pars = breadInstance.GetMethodTypes(method);
+      var pars = breadInstance.GetMethodParams(method);
       var objectQuery = new object[pars.Count()];
       for (var i = 0; i < pars.Count(); i++)
         objectQuery[i] = query[i].ToObject(pars[i].ParameterType);
@@ -29,10 +31,14 @@ namespace Hylasoft.BreadApi.Controllers
     public object Params(string bread, string breadClass, string method)
     {
       var breadInstance = LoadBread(bread, breadClass);
-      var pars = breadInstance.GetMethodTypes(method);
+      var pars = breadInstance.GetMethodParams(method);
       var objectQuery = new object[pars.Count()];
+      var generator = new JsonSchemaGenerator();
       for (var i = 0; i < pars.Count(); i++)
-        objectQuery[i] = new {type = pars[i].ParameterType.Name, name = pars[i].Name};
+      {
+        var schema = generator.Generate(pars[i].ParameterType);
+        objectQuery[i] = JsonConvert.DeserializeObject(schema.ToString());
+      }
       return objectQuery;
     }
 
