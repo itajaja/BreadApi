@@ -47,5 +47,5 @@ Currently the following methods can be called (if the specified bread support th
 - `SetCurrentUser`
 
 Refer to the guide `OEEBREADENG.chm` for the documentation for these methods.
-Custom Methods defined by each API for now are not supported, but they probably be in the future.
+Custom Methods defined by each API for now are not supported, but they probably will be in the future.
 
