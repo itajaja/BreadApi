@@ -22,7 +22,7 @@ namespace Ninject.WebApi
   /// <summary>
   /// Resolves Dependencies Using Ninject
   /// </summary>
-  public class NinjectHttpResolver : IDependencyResolver, IDependencyScope
+  public class NinjectHttpResolver : IDependencyResolver
   {
     public IKernel Kernel { get; private set; }
     public NinjectHttpResolver(params NinjectModule[] modules)
