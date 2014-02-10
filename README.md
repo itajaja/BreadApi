@@ -21,6 +21,7 @@ In the `appSettings` section modify the following values:
 
 Running
 -------------
+###Invoking the methods
 The API are exposed as `POST` requests at the address `breads/{breadPackage}/{bread}/{action}` where:
 
 - `breadPackage` is the name of the Bread package (e.g. `OEE`, `MM`, `POM`)
@@ -30,8 +31,6 @@ The API are exposed as `POST` requests at the address `breads/{breadPackage}/{br
 For example, if I want to call the Select method in the Equipment bread of the OEEBread.dll, the url would
 
     breads/oee/equipment/select
-
-All the available api calls can be navigated from the home page.
 
 Currently the following methods can be called (if the specified bread support them)
 
@@ -48,4 +47,10 @@ Currently the following methods can be called (if the specified bread support th
 
 Refer to the guide `OEEBREADENG.chm` for the documentation for these methods.
 Custom Methods defined by each API for now are not supported, but they probably will be in the future.
+
+###Exploring the methods
+
+All the available api calls can be navigated from the home page.
+
+A [Jsonschema](http://json-schema.org/) object describing the parameters to pass to a specific method is returned from the following POST request: `breads/{breadPackage}/{bread}/{action}/params`. The schema can be used to inspect the structure of the Json that the method call is expecting to receive.
 
