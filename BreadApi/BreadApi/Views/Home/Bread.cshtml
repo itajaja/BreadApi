@@ -3,16 +3,42 @@
   ViewBag.Title = Model.Bread.Name + " - BreadApi";
 }
 <h2>@Model.Bread.Name </h2>
-<ul>
-  @foreach (var bread in Model.Bread.Breads)
-  {
-    <li>@bread.Name
-      <ul>
-        @foreach (var method in bread.Methods)
-        {
-          <li>@method</li>
-        }
-      </ul>
-    </li>
-  }
-</ul>
+<div class="row">
+  <div class="col-md-6">
+    <ul>
+      @foreach (var bread in Model.Bread.Breads)
+      {
+        <li>@bread.Name
+          <ul>
+            @foreach (var method in bread.Methods)
+            {
+              <li data-class="@bread.Name" data-method="@method" class="bread-method">@method</li>
+            }
+          </ul>
+        </li>
+      }
+    </ul>
+  </div>
+  <div class="col-md-6">
+    <form id="bread-form"></form>
+  </div>
+</div>
+@section scripts{
+  <script type="text/javascript">
+    $('.bread-method').click(function () {
+      $.post('@Url.Content("/")breads/@Model.Bread.Name/' + $(this).data('class') + '/' + $(this).data('method') + '/params', function (data) {
+        $('#bread-form').jsonForm({
+          schema: data[0],
+          onSubmit: function (errors, values) {
+            if (errors) {
+
+            }
+            else {
+
+            }
+          }
+        });
+      });
+    });
+  </script>
+}
