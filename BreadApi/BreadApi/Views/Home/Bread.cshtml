@@ -28,7 +28,7 @@
     $('.bread-method').click(function () {
       $.post('@Url.Content("/")breads/@Model.Bread.Name/' + $(this).data('class') + '/' + $(this).data('method') + '/params', function (data) {
         $('#bread-form').jsonForm({
-          schema: data[0],
+          schema: data,
           onSubmit: function (errors, values) {
             if (errors) {
 

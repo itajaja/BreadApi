@@ -34,12 +34,28 @@ namespace Hylasoft.BreadApi.Controllers
       var pars = breadInstance.GetMethodParams(method);
       var objectQuery = new object[pars.Count()];
       var generator = new JsonSchemaGenerator();
+      var schema = new JsonSchema {Type = JsonSchemaType.Object, Title = "parameters"};
+      if (pars.Any())
+        schema.Properties = new Dictionary<string, JsonSchema>(pars.Count());
       for (var i = 0; i < pars.Count(); i++)
       {
-        var schema = generator.Generate(pars[i].ParameterType);
-        objectQuery[i] = JsonConvert.DeserializeObject(schema.ToString());
+        var par = generator.Generate(pars[i].ParameterType);
+//        generator.ContractResolver.ResolveContract(typeof (string)).DefaultCreator = () =>  { return new object(); };
+        par.Title = pars[i].Name;
+        schema.Properties.Add(par.Title, par);
       }
-      return objectQuery;
+      JObject res = JsonConvert.DeserializeObject(schema.ToString()) as JObject;
+      //refactor!
+      var types = res.Descendants().OfType<JProperty>().Where(t => t.Name == "type");
+      foreach (var type in types.Where(t => t.Value is JArray))
+      {
+        var val = type.Value as JArray;
+        if (val.Count == 2 && val.Last is JValue && ((JValue)val.Last).Value.ToString() == "null")
+        {
+          type.Value = val.First;
+        }
+      }
+      return res;
     }
 
     private Bread LoadBread(string bread, string breadClass)
