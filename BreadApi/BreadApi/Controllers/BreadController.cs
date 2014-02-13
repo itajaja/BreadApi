@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web.Configuration;
 using System.Web.Http;
 using Hylasoft.BreadApi.Services;
 using Hylasoft.BreadEngine;
@@ -41,11 +42,12 @@ namespace Hylasoft.BreadApi.Controllers
       {
         var par = generator.Generate(pars[i].ParameterType);
 //        generator.ContractResolver.ResolveContract(typeof (string)).DefaultCreator = () =>  { return new object(); };
-        par.Title = pars[i].Name;
-        schema.Properties.Add(par.Title, par);
+//        par.Title = pars[i].Name;
+        schema.Properties.Add(pars[i].Name, par);
       }
-      JObject res = JsonConvert.DeserializeObject(schema.ToString()) as JObject;
+      var res = JsonConvert.DeserializeObject(schema.ToString()) as JObject;
       //refactor!
+      //Remove the null type from the string
       var types = res.Descendants().OfType<JProperty>().Where(t => t.Name == "type");
       foreach (var type in types.Where(t => t.Value is JArray))
       {
@@ -54,6 +56,12 @@ namespace Hylasoft.BreadApi.Controllers
         {
           type.Value = val.First;
         }
+      }
+      //add the title property
+      foreach (var node in res.Descendants().OfType<JProperty>().Where(n => n.Parent.Parent is JProperty && ((JProperty)n.Parent.Parent).Name == "properties"))
+      {
+        var title = new JProperty("title",node.Name);
+        ((JObject) node.Value).Add(title);
       }
       return res;
     }
