@@ -2,27 +2,32 @@
 @{
   ViewBag.Title = Model.Bread.Name + " - BreadApi";
 }
-<h2>@Model.Bread.Name </h2>
-<div class="row">
-  <div class="col-md-6">
-    <ul>
-      @foreach (var bread in Model.Bread.Breads)
-      {
-        <li>@bread.Name
-          <ul>
+<div ng-controller="breadController">
+  <div class="progress progress-striped active">
+    <div class="progress-bar" style="width: 100%"></div>
+  </div>
+  <h2>@Model.Bread.Name </h2>
+  <div class="row">
+    <div class="col-md-3">
+      <div class="list-group">
+        @foreach (var bread in Model.Bread.Breads)
+        {
+          <a class="list-group-item" ng-click="alert('adwadwadw')">@bread.Name
+            @*<ul>
             @foreach (var method in bread.Methods)
             {
               <li data-class="@bread.Name" data-method="@method" class="bread-method">@method</li>
             }
-          </ul>
-        </li>
-      }
-    </ul>
-  </div>
-  <div class="col-md-6">
-    <h3 id="bread-form-title">Select a method</h3>
-    <form id="bread-form"></form>
-    <div id="result"></div>
+          </ul>*@
+          </a>
+        }
+      </div>
+    </div>
+    <div class="col-md-6">
+      <h3 id="bread-form-title">Select a method</h3>
+      <form id="bread-form"></form>
+      <div id="result"></div>
+    </div>
   </div>
 </div>
 @section scripts{
@@ -43,10 +48,21 @@
                 function (data) {
                   $('#result').html('suceed:<br/><pre><code>' + JSON.stringify(data, undefined, 2) + '</code></pre>');
                 });
-            }
           }
-        });
+        }
+      });
       });
     });
+    function breadController($scope) {
+      $scope.alert = function (text) {
+        alert(text);
+      };
+    }
   </script>
 }
+<style>
+  .list-group-item {
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+</style>
