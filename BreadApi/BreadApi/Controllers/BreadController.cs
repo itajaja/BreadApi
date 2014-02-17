@@ -35,11 +35,6 @@ namespace Hylasoft.BreadApi.Controllers
       return result;
     }
 
-    private object BreadList(string bread)
-    {
-      return FindLoader(bread).Breads;
-    }
-
     [HttpPost]
     public object Params(string bread, string breadClass, string method)
     {
@@ -104,6 +99,11 @@ namespace Hylasoft.BreadApi.Controllers
       if (loader == null)
         throw new ArgumentException("Couldn't find the Bread " + bread);
       return loader;
+    }
+
+    private object BreadList(string bread)
+    {
+      return FindLoader(bread).Breads;
     }
   }
 }
