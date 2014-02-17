@@ -44,29 +44,39 @@ namespace Hylasoft.BreadApi.Controllers
       for (var i = 0; i < pars.Count(); i++)
       {
         var par = generator.Generate(pars[i].ParameterType);
-//        generator.ContractResolver.ResolveContract(typeof (string)).DefaultCreator = () =>  { return new object(); };
-//        par.Title = pars[i].Name;
         schema.Properties.Add(pars[i].Name, par);
       }
+      ModifyJsonSchema(schema);
       var res = JsonConvert.DeserializeObject(schema.ToString()) as JObject;
-      //refactor!
-      //Remove the null type from the string
-      var types = res.Descendants().OfType<JProperty>().Where(t => t.Name == "type");
-      foreach (var type in types.Where(t => t.Value is JArray))
-      {
-        var val = type.Value as JArray;
-        if (val.Count == 2 && val.Last is JValue && ((JValue)val.Last).Value.ToString() == "null")
-        {
-          type.Value = val.First;
-        }
-      }
-      //add the title property
-      foreach (var node in res.Descendants().OfType<JProperty>().Where(n => n.Parent.Parent is JProperty && ((JProperty)n.Parent.Parent).Name == "properties"))
-      {
-        var title = new JProperty("title",node.Name);
-        ((JObject) node.Value).Add(title);
-      }
       return res;
+    }
+
+    /// <summary>
+    /// Prepare the schema to be JsonForm Friendly, adding titles, default values and correct types
+    /// </summary>
+    /// <param name="schema">the schema to modify</param>
+    private static void ModifyJsonSchema(JsonSchema schema)
+    {
+      if (schema.Properties == null)
+        return;
+      foreach (var property in schema.Properties)
+      {
+        var val = property.Value;
+        var key = property.Key;
+        //sets the title of the property as the key value
+        val.Title = key;
+        if (val.Type.HasValue && val.Type.Value.HasFlag(JsonSchemaType.String))
+        {
+          //sets the default value of the string to ""
+          val.Default = "";
+          //the string shouldn't be required
+          val.Required = false;
+        }
+        if (val.Type.HasValue && val.Type.Value.HasFlag(JsonSchemaType.Null))
+          //remove the null type
+          val.Type &= ~JsonSchemaType.Null;
+        ModifyJsonSchema(val);
+      }
     }
 
     private Bread LoadBread(string bread, string breadClass)
