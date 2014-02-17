@@ -19,7 +19,11 @@ namespace Hylasoft.BreadApi.Controllers
     [HttpPost]
     public object Invoke(string bread, string breadClass, string method, JObject query)
     {
+      if (string.IsNullOrEmpty(breadClass))
+        return BreadList(bread);
       var breadInstance = LoadBread(bread, breadClass);
+      if (string.IsNullOrEmpty(method))
+        return breadInstance.Methods;
       var pars = breadInstance.GetMethodParams(method);
       var objectQuery = new object[pars.Count()];
       for (var i = 0; i < pars.Count(); i++)
@@ -29,6 +33,11 @@ namespace Hylasoft.BreadApi.Controllers
           objectQuery[i] = pars[i].ParameterType.IsValueType ? Activator.CreateInstance(pars[i].ParameterType) : null;
       var result = breadInstance.InvokeMethod(method, objectQuery);
       return result;
+    }
+
+    private object BreadList(string bread)
+    {
+      return FindLoader(bread).Breads;
     }
 
     [HttpPost]
@@ -81,14 +90,20 @@ namespace Hylasoft.BreadApi.Controllers
 
     private Bread LoadBread(string bread, string breadClass)
     {
-      var loader = _breads.SingleOrDefault(b => String.Equals(b.Name, bread, StringComparison.CurrentCultureIgnoreCase));
-      if (loader == null)
-        throw new ArgumentException("Couldn't find the Bread" + bread);
+      var loader = FindLoader(bread);
       var breadInstance =
-        loader.Breads.Single(b => String.Equals(b.Name, breadClass, StringComparison.CurrentCultureIgnoreCase));
+        loader.Breads.SingleOrDefault(b => String.Equals(b.Name, breadClass, StringComparison.CurrentCultureIgnoreCase));
       if (breadInstance == null)
         throw new ArgumentException("Couldn't find the class" + breadClass + " inside " + bread);
       return breadInstance;
+    }
+
+    private BreadLoader FindLoader(string bread)
+    {
+      var loader = _breads.SingleOrDefault(b => String.Equals(b.Name, bread, StringComparison.CurrentCultureIgnoreCase));
+      if (loader == null)
+        throw new ArgumentException("Couldn't find the Bread " + bread);
+      return loader;
     }
   }
 }
