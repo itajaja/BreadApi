@@ -39,7 +39,6 @@
             if (errors) {
               $('#result').val('errors are present, unable to submite request:\n' + errors);
             } else {
-              console.log(values);
               $.post('@Url.Content("/")breads/@Model.Bread.Name/' + breadClass + '/' + breadMethod, values,
                 function (data) {
                   $('#result').html('suceed:<br/><pre><code>' + JSON.stringify(data, undefined, 2) + '</code></pre>');
