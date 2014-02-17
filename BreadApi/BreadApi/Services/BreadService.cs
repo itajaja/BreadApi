@@ -28,5 +28,14 @@ namespace Hylasoft.BreadApi.Services
         InitializeBreads();  
       return _breads;
     }
+
+    /// <summary>
+    /// Resets the BreadService and force loading the dll again
+    /// </summary>
+    /// <returns>The list of available breads</returns>
+    public static void ResetBreadService()
+    {
+        InitializeBreads();
+    }
   }
 }
