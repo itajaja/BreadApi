@@ -17,13 +17,16 @@ namespace Hylasoft.BreadApi.Controllers
     private readonly List<BreadLoader> _breads = BreadService.Get();
 
     [HttpPost]
-    public object Invoke(string bread, string breadClass, string method, JArray query)
+    public object Invoke(string bread, string breadClass, string method, JObject query)
     {
       var breadInstance = LoadBread(bread, breadClass);
       var pars = breadInstance.GetMethodParams(method);
       var objectQuery = new object[pars.Count()];
       for (var i = 0; i < pars.Count(); i++)
-        objectQuery[i] = query[i].ToObject(pars[i].ParameterType);
+        if (query[pars[i].Name] != null)
+          objectQuery[i] = query[pars[i].Name].ToObject(pars[i].ParameterType);
+        else
+          objectQuery[i] = pars[i].ParameterType.IsValueType ? Activator.CreateInstance(pars[i].ParameterType) : null;
       var result = breadInstance.InvokeMethod(method, objectQuery);
       return result;
     }

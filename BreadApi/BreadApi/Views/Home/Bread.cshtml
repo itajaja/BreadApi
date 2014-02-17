@@ -20,21 +20,30 @@
     </ul>
   </div>
   <div class="col-md-6">
+    <h3 id="bread-form-title">Select a method</h3>
     <form id="bread-form"></form>
+    <div id="result"></div>
   </div>
 </div>
 @section scripts{
   <script type="text/javascript">
     $('.bread-method').click(function () {
-      $.post('@Url.Content("/")breads/@Model.Bread.Name/' + $(this).data('class') + '/' + $(this).data('method') + '/params', function (data) {
+      var breadClass = $(this).data('class');
+      var breadMethod = $(this).data('method');
+      $.post('@Url.Content("/")breads/@Model.Bread.Name/' + breadClass + '/' + breadMethod + '/params', function (data) {
+        $('#bread-form-title').html(breadClass + '.' + breadMethod + ':');
+        $('#bread-form').html(''); //resets the form
         $('#bread-form').jsonForm({
           schema: data,
           onSubmit: function (errors, values) {
             if (errors) {
-
-            }
-            else {
-
+              $('#result').val('errors are present, unable to submite request:\n' + errors);
+            } else {
+              console.log(values);
+              $.post('@Url.Content("/")breads/@Model.Bread.Name/' + breadClass + '/' + breadMethod, values,
+                function (data) {
+                  $('#result').html('suceed:<br/><pre><code>' + JSON.stringify(data, undefined, 2) + '</code></pre>');
+                });
             }
           }
         });
