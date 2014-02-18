@@ -13,7 +13,7 @@
     }
   </style>
 </head>
-<body ng-app>
+<body ng-app="breadApp">
   <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
       <div class="navbar-header">
@@ -47,6 +47,10 @@
   @*                        "~/Scripts/jsv.min.js",*@
   @*                        "~/Scripts/jsonform.min.js"));*@
   <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+  @*TODO: bundle and minify*@
+  @Scripts.Render("~/angular/app.js");
+  @Scripts.Render("~/angular/services.js");
+  @Scripts.Render("~/angular/controllers.js");
   @RenderSection("scripts", required: false)
 </body>
 </html>
