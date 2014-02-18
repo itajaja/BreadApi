@@ -144,6 +144,9 @@
     <Compile Include="Models\BreadModel.cs" />
     <Compile Include="Models\IndexModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="angular\app.js" />
+    <Content Include="angular\controllers.js" />
+    <Content Include="angular\services.js" />
     <Content Include="Scripts\angular-1.2.12.min.js" />
     <Compile Include="Services\BreadService.cs" />
     <Compile Include="Services\Config.cs" />

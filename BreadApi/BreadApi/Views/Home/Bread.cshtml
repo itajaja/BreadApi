@@ -2,25 +2,21 @@
 @{
   ViewBag.Title = Model.Bread.Name + " - BreadApi";
 }
-<div ng-controller="breadController">
-  <div class="progress progress-striped active">
-    <div class="progress-bar" style="width: 100%"></div>
-  </div>
+<div ng-controller="breadController" ng-init="getBreads('@Model.Bread.Name');">
   <h2>@Model.Bread.Name </h2>
   <div class="row">
     <div class="col-md-3">
       <div class="list-group">
-        @foreach (var bread in Model.Bread.Breads)
-        {
-          <a class="list-group-item" ng-click="alert('adwadwadw')">@bread.Name
-            @*<ul>
-            @foreach (var method in bread.Methods)
-            {
-              <li data-class="@bread.Name" data-method="@method" class="bread-method">@method</li>
-            }
-          </ul>*@
+          <a title="{{bread.Name}}" ng-repeat="bread in breads" class="list-group-item" ng-click="getMethods(bread)" ng-class="{active: isSelectedBread(bread)}">
+            {{bread.Name}}
           </a>
-        }
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="list-group">
+          <a ng-repeat="method in methods track by $index" class="list-group-item">
+            {{method}}
+          </a>
       </div>
     </div>
     <div class="col-md-6">
@@ -28,6 +24,15 @@
       <form id="bread-form"></form>
       <div id="result"></div>
     </div>
+  </div>
+  <div class="progress progress-striped active" ng-show="loading" style="
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin-bottom: -12px;
+">
+    <div class="progress-bar" style="width: 100%"></div>
   </div>
 </div>
 @section scripts{
