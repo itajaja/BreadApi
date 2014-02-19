@@ -5,8 +5,8 @@ angular.module('breadApp.services', []).
 value('hostUrl', 'http://localhost:55181/').
 value('breadApiUrl', 'http://localhost:55181/breads/').
 service('breadApi', function ($http, breadApiUrl) {
-  this.invoke = function (bread, breadClass, method) {
-    return $http.post(breadApiUrl + bread + '/' + breadClass + '/' + method);
+  this.invoke = function (bread, breadClass, method, data) {
+    return $http.post(breadApiUrl + bread + '/' + breadClass + '/' + method, data);
   };
   this.params = function (bread, breadClass, method) {
     return $http.post(breadApiUrl + bread + '/' + breadClass + '/' + method + '/params');
