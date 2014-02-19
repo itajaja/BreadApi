@@ -42,7 +42,7 @@ namespace Hylasoft.BreadEngine
       BreadType = breadType;
       EntityType = breadType.GetGenericParent();
       Name = breadType.Name.Split('_')[0];
-      Methods = breadType.GetMethods().Where(m => BreadMethods.Contains(m.Name)).Select(m => m.Name).ToList();
+      Methods = breadType.GetMethods().Where(m => IsValidBreadMethod(m)).Select(m => m.Name).ToList();
       _defaultConstructor = breadType.GetConstructor(new Type[] { });
       if (_defaultConstructor == null)
         throw new ArgumentException("the breadType doesn't contain a default constructor!");
@@ -94,6 +94,11 @@ namespace Hylasoft.BreadEngine
         throw new ArgumentException("The class " + Name + " doesn't contain the method " + methodName +
                                     " or it's not a valid bread method");
       return method;
+    }
+
+    private bool IsValidBreadMethod(MethodInfo method)
+    {
+      return (BreadMethods.Contains(method.Name) || method.DeclaringType == this.BreadType) && method.IsPublic;
     }
 
     #endregion
